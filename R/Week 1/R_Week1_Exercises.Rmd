@@ -1,0 +1,90 @@
+---
+title: "R Week 1 Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+help("<-")
+```
+
+Assign a numeric value, an integer, a character value, and a logical value to variables
+
+```{r}
+my_num <-
+my_int <-
+my_char <-
+my_logical <-
+```
+
+Look up the special characters available in R.
+
+```{r}
+?Quotes
+```
+
+Assign a string that includes one or more special characters to a variable.
+
+```{r}
+my_special_char <- 
+```
+
+Create a vector with the variables you've already assigned. See what types each element in the vector is.
+```{r}
+my_vector <- 
+```
+
+Create a list with the same variables you used in the above vector. See what type each element in the list is.
+```{r}
+my_list <- 
+```
+
+Create a matrix with 4 columns containing the numbers 21:80 with each row containing consecutive numbers (e.g. 21, 22, 23, 24).
+```{r}
+
+```
+
+Add a row to the matrix with 81:85.
+```{r}
+
+```
+
+Make a family_member dataframe with columns for name, gender, and age with at least five rows.
+```{r}
+
+```
+
+Create a factor from the gender column of the dataframe.
+```{r}
+
+```
+
+Print the age column of the dataframe.
+```{r}
+
+```
+
+Assign the value of the first element of the fifth row of the dataframe to a new variable.
+```{r}
+
+```
+
+Divide my_num by my_int. Find the integer quotient and the remainder.
+```{r}
+
+```
+
+Try to do some math using a my_char and/or my_special_char.
+```{r}
+
+```
+
+Look at the help for paste. Try to concatenate a sentance with a comma using the paste function.
+```{r}
+help(paste)
+
+```
+

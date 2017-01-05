@@ -1,0 +1,318 @@
+---
+title: "R Week 1 Demonstrations"
+author: "Bonhwang Koo & Jon Clucas"
+date: "2017 January 5"
+output: html_notebook
+---
+
+Getting Started
+
+Commands: evaluated by R interpreter
+
+help(function)
+```{r}
+help(help)
+```
+
+or ?function
+```{r}
+?c
+```
+
+example(function)
+```{r}
+example(c)
+```
+
+Vectors and Variables
+```{r}
+x <- 7
+y <- "diagnosis"
+3.42 -> z
+a <- z
+b <- y -> c
+```
+
+The escape character `\`
+```{r}
+?Quotes
+```
+
+Environments, Sessions, and Workspaces
+```{r}
+?rm
+rm(a)
+```
+
+Data Types & Structures
+```{r}
+my_char <- "Hello"
+typeof(my_char)
+
+my_num <- 1.4
+typeof(my_num)
+
+my_logical <- TRUE
+typeof(my_logical)
+```
+
+```{r}
+empty_vector_1 <- vector()
+empty_vector_1
+
+empty_vector_2 <- vector("character", length = 12)
+empty_vector_2
+typeof(empty_vector_2[0])
+```
+
+```{r}
+character(5)
+numeric(5)
+logical(5)
+```
+
+```{r}
+nums <- c(1,2,3)
+nums
+
+length(nums)
+
+nums[2] = 10
+nums
+```
+
+```{r}
+nums2 <- 1:100
+nums2
+```
+
+```{r}
+nums3 <- seq(40)
+nums3
+
+nums4 <- seq(1, 10, by = .2)
+
+#Can also add to a vector
+nums5 <- c(nums4, 101)
+nums5
+```
+
+When you mix types in a vector, R coerces all the elements to one type
+```{r}
+va <- c("char", 1, 1.0)
+vb <- c(TRUE, 1, 97)
+vc <- c(TRUE, 1, 0)
+vd <- c("What", TRUE, FALSE)
+
+typeof(va[2])
+typeof(vb[1])
+typeof(vc[1])
+typeof(vd[2])
+```
+
+Matrices
+```{r}
+m <- matrix(nrow = 3, ncol = 4)
+dim(m)
+m
+```
+
+```{r}
+m[1,1] = TRUE
+m
+m[1,2] = FALSE
+m
+```
+
+Can reference an entire row or column of a matrix
+```{r}
+m[2,] = TRUE
+m
+```
+
+```{r}
+m1 <- matrix(1:10, nrow = 5, ncol = 2)
+m1
+```
+
+```{r}
+m2 <- 1:25
+dim(m2) <- c(5,5)
+m2
+```
+
+```{r}
+m3 <- rbind(c(1:3), c(4:6), c(7:9))
+m3
+```
+
+```{r}
+m4 <- cbind(c(100:149), c(150:199), c(200:249))
+m4
+```
+
+Lists
+```{r}
+l <- list(1, TRUE, "three")
+list_w_in_list <- list(FALSE, 2, l)
+list_w_in_list[[4]] <- "This is the 4th item in the list"
+list_w_in_list[[4]][[2]] <- "This is the 2nd part of the 4th item in the list"
+list_w_in_list
+```
+
+Data Frames
+```{r}
+df <- data.frame(id = c(1:10), isOdd = c("Yes", "No", "Yes", "No", "Yes", "No", "Yes", "No", "Yes", "No"), 
+                 isEven = c(FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE))
+```
+
+```{r}
+head(df)
+```
+
+```{r}
+tail(df)
+```
+
+```{r}
+dim(df)
+```
+
+```{r}
+nrow(df)
+```
+
+```{r}
+ncol(df)
+```
+
+```{r}
+str(df)
+```
+
+```{r}
+names(df)
+```
+
+```{r}
+df$isEven
+```
+
+```{r}
+df[2,1]
+```
+
+```{r}
+df[4,]
+```
+
+Factors
+```{r}
+odd = factor(df$isOdd)
+odd
+```
+
+Operators
+```{r}
+x + z
+x - z
+x * z
+x / z
+x ^ z
+x %% z
+x %/% z
+```
+
+```{r}
+x < z
+x > z
+x == z
+x >= z
+x <= z
+```
+
+numerator/denominator = integer quotient remainder / denominator
+```{r}
+quotient = 10 / 3
+quotient
+```
+
+```{r}
+integer_quotient = 10 %/% 3
+modulus = 10 %% 3
+integer_quotient
+modulus
+```
+
+```{r}
+quotient == integer_quotient + modulus / 3
+```
+
+```{r}
+sqrt(x)
+exp(x) # e^x
+log(x)
+-log(exp(x))
+abs(-log(exp(x)))
+```
+
+```{r}
+3 + 4
+exp(1)
+log(100)
+abs(-100)
+```
+
+```{r}
+x <- 100 - 2
+y <- 1.0 * 2
+z <- 10 / 3.0
+a <- 10%%2
+b <- 10%%3
+c <- 10%/%2
+d <- 10%/%3
+e <- sqrt(25)
+```
+
+```{r}
+x
+y
+z
+a
+b
+c
+d
+e
+```
+
+Strings
+```{r}
+my_string <- "/Users/Username/Desktop/filename.csv"
+```
+
+```{r}
+nchar(my_string)
+```
+
+```{r}
+print(my_string)
+print("hello world!")
+```
+
+```{r}
+this_string <- "HeLlO WoRlD"
+tolower(this_string) #Note: this_string itself does not actually change
+toupper(this_string)
+this_string
+```
+
+Substrings and concatenation
+```{r}
+new_string1 = substring(this_string, 1, 3)
+new_string2 = substring(this_string, 4) #if there is no 3rd argument, R defaults to the very end of the string
+paste(new_string1, new_string2)
+```
+
+```{r}
+paste("This", "Sentence", "Is", "Separated", "by", "Forward", "Slashes", sep = "/")
+```
