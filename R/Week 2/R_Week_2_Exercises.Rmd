@@ -1,0 +1,63 @@
+---
+title: "R_Week2_Exercises"
+author: "Jon Clucas and Bonhwang Koo"
+output: html_document
+---
+
+Download your choice of .csv files from Google Drive (Week 2)
+Move the .csv files to a folder on your computer or drive (not the CMI server)
+Set the working directory to this folder
+Create a vector containing the file names in your folder
+Run a loop to print out all the file names, including the path, in the folder
+Create a data frame variable from a csv of your choice
+```{r}
+path <- "Path to working directory"
+setwd(path)
+file_names <- NULL
+
+for (i in 1:1) { # Change the parenthetical statement to iterate through the vector file_names, from 1 to the vector length
+  print("Your code here")
+}
+
+df <- read.csv("filename")
+
+```
+
+Create a vector that contains boolean values comparing the 2 strings in each row of the dataframe
+Determine if all the values of the new vector are TRUE
+```{r}
+isEqual = "" == ""
+
+```
+
+For each of the two columns, create a vector that contains the length of each string
+Sort each vector by decreasing order
+Print summary statistics for each vector
+Compare mean and variance for each vector
+```{r}
+lengths1 = NA
+lengths2 = NA
+
+mean1 = 0
+mean2 = 0
+var1 = 0
+var2 = 0
+```
+
+For lengths1, create a new vector that only contains strings that are longer than the mean length
+Repeat for lengths2
+
+Double the value of each element in each new vector
+```{r}
+greaterThanAvg1 = lengths1[]
+greaterThanAvg2 = lengths2[]
+
+
+```
+
+Using a loop of your choice, replace the values in lengths1 with a random number 
+  (try using rnorm(1), which generates a random number from a normal distribution)
+```{r}
+
+```
+

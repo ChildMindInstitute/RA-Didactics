@@ -1,0 +1,252 @@
+---
+title: "R Week 2 Demonstrations"
+author: "Bonhwang Koo & Jon Clucas"
+date: "2017 January 12"
+output: html_notebook
+---
+
+File Manipulation
+
+Commands: evaluated by R interpreter
+
+getwd()
+```{r}
+getwd()
+```
+
+setwd()
+RStudio will reset the working directory to the default in each new block, so if you need to access the directory in a later block, you'll need to run setwd again.
+Also, notice the space character is entered as `\ ` rather than just ` ` because it is a special character.
+```{r}
+setwd("/Volumes/Data/Research/CDB/RA\ Didactics/Programming_Jan2017/Week\ 2/example_csv")
+getwd()
+```
+
+read.csv
+```{r}
+setwd("/Volumes/Data/Research/CDB/RA\ Didactics/Programming_Jan2017/Week\ 2/example_csv")
+words_3 <- read.csv(file = "words_3.csv")
+```
+
+rename columns we want to keep
+add a column to tell if the values in the original two columns are equal
+remove column we don't need
+write updated database to new csv file
+```{r}
+setwd("/Volumes/Data/Research/CDB/RA\ Didactics/Programming_Jan2017/Week\ 2/example_csv")
+
+# rename columns we want to keep
+names(words_3)[2] <- "Rode_Canon"
+names(words_3)[names(words_3) == "X2017.01.03_ArnoT_Sony_.Watson..json"] <- "Sony"
+
+# add a column to tell if the values in the original two columns are equal
+words_3$col_is_equal <- (words_3$Rode_Canon == words_3$Sony)
+
+# remove column we don't need
+words_3[1] <- NULL
+
+# write updated database to new csv file
+write.csv(words_3, file = "output/words_3_edited.csv")
+```
+
+file.path
+notice the opening slash to set an absolute path
+```{r}
+wd <- file.path("/", "Volumes", "Data", "Research", "CDB", "RA\ Didactics", "Programming_Jan2017", "Week\ 2", "example_csv")
+```
+
+list.files
+```{r}
+setwd(wd)
+file_list <- list.files(wd)
+file_list
+```
+
+$
+```{r}
+words_3$Sony
+```
+
+numeric vector
+```{r}
+fib <- c(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89)
+```
+
+descriptive operations
+```{r}
+paste("mean:", mean(fib))
+paste("median:", median(fib))
+print("quantile:", quote = FALSE)
+quantile(fib) # Divides a vector into quantiles (i.e. 0th, 25th, 50th/median, 75th, and 100th percentiles)
+paste("min:", min(fib))
+paste("max:", max(fib))
+paste("var:", var(fib)) # variance
+print("sort:", quote = FALSE)
+sort(fib, decreasing = TRUE)
+print("summary:", quote = FALSE)
+summary(fib)
+```
+
+NA
+(na.rm is TRUE by default)
+```{r}
+fib <- c(fib, NA)
+paste("mean (na.rm = TRUE):", mean(fib, na.rm = TRUE))
+paste("mean (na.rm = FALSE):", mean(fib, na.rm = FALSE))
+```
+
+Vector math
+```{r}
+fib <- fib[1:11]
+fib_head_reversed <- sort(fib, decreasing = TRUE)
+
+fib + fib_head_reversed
+
+fib * 4
+```
+
+Boolean logic
+```{r}
+a <- TRUE
+b <- !a
+paste("a:", a)
+paste("b:", b)
+
+a_AND_b <- a & b
+paste("a & b:", a_AND_b)
+paste("a & a:", (a & a))
+paste("b & b:", (b & b))
+
+a_OR_b <- a | b
+paste("a | b:", a_OR_b)
+paste("a | a:", (a | a))
+paste("b | b:", (b | b))
+
+a_XOR_b <- xor(a, b)
+paste("a XOR b:", a_XOR_b)
+paste("a XOR a:", xor(a, a))
+paste("b XOR b:", xor(b, b))
+```
+
+comparison operators
+```{r}
+fib[1]
+fib_head_reversed[1]
+"1 == 89?"
+fib[1] == fib_head_reversed[1] # 1 == 89?
+"1 < 89?"
+fib[1] < fib_head_reversed[1]
+"1 > 89?"
+fib[1] > fib_head_reversed[1]
+"1 <= 89?"
+fib[1] <= fib_head_reversed[1]
+"1 >= 89?"
+fib[1] >= fib_head_reversed[1]
+
+"1 == 1?"
+fib[1] == fib_head_reversed[11] # 1 == 1?
+"1 < 1?"
+fib[1] < fib_head_reversed[11]
+"1 > 1?"
+fib[1] > fib_head_reversed[11]
+"1 <= 1?"
+fib[1] <= fib_head_reversed[11]
+"1 >= 1?"
+fib[1] >= fib_head_reversed[11]
+```
+
+all
+```{r}
+all(words_3$col_is_equal)
+all(fib) # FALSE <- 0; TRUE <- !0
+all(c(TRUE, FALSE, TRUE, TRUE))
+```
+
+vector logic
+```{r}
+x <- c(1,4,7,NA,12,19,15,NA,20)
+x_is_NA <- is.na(x)
+x_is_NA
+
+x_no_NA <- x[!x_is_NA]
+x_no_NA
+```
+
+conditional statements
+
+if
+```{r}
+if(length(fib) > length(x)) {
+  "fib is longer than x"
+}
+
+if(length(fib) < length(x)) {
+  "fib is shorter than x"
+}
+
+if(length(fib) == length(x)) {
+  "fib is the same length as x"
+}
+```
+
+if/else
+```{r}
+if(length(fib) != length(fib_head_reversed)) {
+  "fib is not the same length as fib_head_reversed"
+} else {
+  "fib is the same length as fib_head_reversed"
+}
+```
+
+else-if
+```{r}
+if(fib[1] > fib[2]){
+  "fib[1] > fib[2]"
+} else if(fib[1] < fib[2]){
+  "fib[1] < fib[2]"
+} else {
+  "fib[1] == fib[2]"
+}
+```
+
+loops
+```{r}
+for(i in 1:10){
+  print(fib_head_reversed[i]*2)
+}
+```
+
+while
+```{r}
+k <- length(x)
+while(k > 0) {
+  print(x[k] - k)
+  k <- k-1
+}
+```
+
+repeat & break
+```{r}
+i = length(fib)
+repeat {
+  print(paste("fib[", i, "] == ", fib[i], sep=""));
+  if((fib[i] == fib[i - 1]) | (i < 1)){
+    print(paste("fib[", (i - 1), "] == fib[", i, "]", sep=""))
+    break
+  } else {
+    i <- (i - 1);
+  }
+}
+```
+
+next
+```{r}
+for (i in 1:length(fib)){
+  if(!fib[i] %% 2) { # skip even numbers
+    next
+  } else {
+    print(c(i, fib[i]))
+  }
+}
+```
+
