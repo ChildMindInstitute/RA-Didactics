@@ -1,0 +1,102 @@
+---
+title: "R Week 1 Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+help("<-")
+```
+
+Assign a numeric value, an integer, a character value, and a logical value to variables
+
+```{r}
+my_num <- 3.0
+my_int <- 12L
+my_char <- "twelve"
+my_logical <- FALSE
+```
+
+Look up the special characters available in R.
+
+```{r}
+?Quotes
+```
+
+Assign a string that includes one or more special characters to a variable.
+
+```{r}
+my_special_char <- "\t"
+```
+
+Create a vector with the variables you've already assigned. See what types each element in the vector is.
+```{r}
+my_vector <- c(my_num, my_int, my_char, my_logical, my_special_char)
+typeof(my_vector)
+```
+
+Create a list with the same variables you used in the above vector. See what type each element in the list is.
+```{r}
+my_list <- list(my_num, my_int, my_char, my_logical, my_special_char)
+typeof(my_list[[1]])
+typeof(my_list[[2]])
+typeof(my_list[[3]])
+typeof(my_list[[4]])
+typeof(my_list[[5]])
+```
+
+Create a matrix with 4 columns containing the numbers 21:80 with each row containing consecutive numbers (e.g. 21, 22, 23, 24).
+```{r}
+my_matrix <- matrix(21:80, ncol = 4, byrow = TRUE)
+```
+
+Add a row to the matrix with 81:85.
+```{r}
+my_matrix <- rbind(my_matrix, c(81:84))
+my_matrix <- rbind(my_matrix, c(85, NA, NA, NA))
+```
+
+Make a family_member dataframe with columns for name, gender, and age with at least five rows.
+```{r}
+name <- c("Jon", "Sarah", "Chris", "Sharon", "Messy", "Mei Mei", "Ben", "Olivia")
+gender <- c("M", "F", "M", "F", "F", "M", "M", "F")
+age <- c(30L, 30L, 56L, 56L, 25L, 23L, 26L, 0L)
+family_member <- data.frame(name, gender, age)
+```
+
+Create a factor from the gender column of the dataframe.
+```{r}
+gender_factor <- factor(family_member$gender)
+```
+
+Print the age column of the dataframe.
+```{r}
+family_member$age
+```
+
+Assign the value of the first element of the fifth row of the dataframe to a new variable.
+```{r}
+sister_name <- family_member[5,][[1]]
+```
+
+Divide my_num by my_int. Find the integer quotient and the remainder.
+```{r}
+my_num / my_int
+my_num %/% my_int
+my_num %% my_int
+```
+
+Try to do some math using a my_char and/or my_special_char.
+```{r}
+my_char * my_int
+```
+
+Look at the help for paste. Try to concatenate a sentence with a comma using the paste function.
+```{r}
+help(paste)
+paste("Try to concatenate a sent", "nce with a comma using the paste function.", sep = ",")
+```
+
