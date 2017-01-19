@@ -1,0 +1,77 @@
+---
+title: "R_Week2_Exercises"
+author: "Jon Clucas and Bonhwang Koo"
+output: html_document
+---
+
+Download your choice of .csv files from Google Drive (Week 2)
+Move the .csv files to a folder on your computer or drive (not the CMI server)
+Set the working directory to this folder
+Create a vector containing the file names in your folder
+Run a loop to print out all the file names, including the path, in the folder
+Create a data frame variable from a csv of your choice
+```{r}
+path <- "/Users/jon.clucas/Downloads/example_csv"
+setwd(path)
+file_names <- list.files(path=path, pattern="*.csv")
+
+for (i in 1:length(file_names)) { # Change the parenthetical statement to iterate through the vector file_names, from 1 to the vector length
+  print(file.path(path, file_names[i]))
+}
+
+df <- read.csv(file.path(path, file_names[8]))
+
+```
+
+Create a vector that contains boolean values comparing the 2 strings in each row of the dataframe
+Determine if all the values of the new vector are TRUE
+```{r}
+isEqual <- df$X2017.01.03_ArnoR_Rode__Canon_.Watson..json == df$X2017.01.03_ArnoR_Sony_.Watson..json
+
+all(isEqual)
+```
+
+For each of the two columns, create a vector that contains the length of each string
+Sort each vector by decreasing order
+Print summary statistics for each vector
+Compare mean and variance for each vector
+```{r}
+lengths1 <- nchar(levels(df$X2017.01.03_ArnoR_Rode__Canon_.Watson..json))
+lengths2 <- nchar(levels(df$X2017.01.03_ArnoR_Sony_.Watson..json))
+
+lengths1 <- sort(lengths1, decreasing = TRUE)
+lengths2 <- sort(lengths2, decreasing = TRUE)
+
+summary(lengths1)
+summary(lengths2)
+
+mean1 <- mean(lengths1)
+mean2 <- mean(lengths2)
+var1 <- var(lengths1)
+var2 <- var(lengths2)
+
+mean1 == mean2
+var1 == var2
+```
+
+For lengths1, create a new vector that only contains strings that are longer than the mean length
+Repeat for lengths2
+
+Double the value of each element in each new vector
+```{r}
+greaterThanAvg1 <- levels(df$X2017.01.03_ArnoR_Rode__Canon_.Watson..json)[lengths1 > mean1]
+greaterThanAvg2 <- levels(df$X2017.01.03_ArnoR_Sony_.Watson..json)[lengths2 > mean2]
+
+lengths1 <- lengths1[lengths1 > mean1] * 2
+lengths2 <- lengths2[lengths2 > mean2] * 2
+```
+
+Using a loop of your choice, replace the values in lengths1 with a random number 
+  (try using rnorm(1), which generates a random number from a normal distribution)
+```{r}
+for(i in 1:length(lengths1)){
+  lengths1[i] <- round((1 + lengths1[i] + lengths1[i] * rnorm(1)), 0)
+}
+lengths1
+```
+
