@@ -1,0 +1,230 @@
+---
+title: "R Week 3 Demonstrations"
+author: "Bonhwang Koo & Jon Clucas"
+date: "2017 January 26"
+output: html_notebook
+---
+
+Set the working directory and read in some data
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+
+close_on <- read.csv("MFCCs_close_on.csv")
+```
+
+Plot the maximum value for each coefficient.
+```{r}
+plot(close_on$max)
+```
+
+Plot the time of the maximum value (x-axis) vs the maximum value (y-axis) for each coefficient.
+```{r}
+plot(close_on$maxPos, close_on$max)
+```
+
+Give the plots and axes labels.
+```{r}
+plot(close_on$max, main="MFCC maximum values: microphone close, pop screen on", xlab = "coefficient", ylab = "maximum value")
+plot(close_on$maxPos, close_on$max, main = "MFCC maximum value: microphone close, pop screen on", xlab = "position of maximum value (frames)", ylab = "maximum value")
+```
+
+Play with graphical parameters.
+```{r}
+plot(close_on$max, main="MFCC maximum values: microphone close, pop screen on", xlab = "coefficient", ylab = "maximum value", xlim=c(-12, 12), ylim=c(0-max(close_on$max), max(close_on$max)), pch=13)
+```
+
+Change the points on the first plot to time labels.
+```{r}
+plot(close_on$max, main="MFCC maximum values: microphone close, pop screen on", xlab = "coefficient", ylab = "maximum value", type="n")
+text(close_on$max, labels=close_on$maxPos)
+```
+
+Change the points on the second plot to coefficient labels.
+```{r}
+plot(close_on$maxPos, close_on$max, main = "MFCC maximum value: microphone close, pop screen on", xlab = "position of maximum value (frames)", ylab = "maximum value", type="n")
+text(close_on$maxPos, close_on$max, labels=close_on$Coefficient)
+```
+•••••
+Draw a line x = y on a simple plot.
+```{r}
+plot(c(1, 3, 2))
+abline(0, 1)
+```
+
+Draw a line of best fit on the first plot.
+```{r}
+plot(close_on$max, main="MFCC maximum values: microphone close, pop screen on", xlab = "coefficient", ylab = "maximum value", pch=13)
+abline(lm(close_on$max ~ close_on$Coefficient))
+```
+
+Draw a line of best fit on the second plot.
+```{r}
+plot(close_on$maxPos, close_on$max, main = "MFCC maximum value: microphone close, pop screen on", xlab = "position of maximum value (frames)", ylab = "maximum value", type="n")
+text(close_on$maxPos, close_on$max, labels=close_on$Coefficient)
+abline(lm(close_on$max ~ close_on$maxPos))
+```
+
+Look at the linear model fitting the plots.
+```{r}
+lm(close_on$max ~ close_on$Coefficient)
+lm(close_on$max ~ close_on$maxPos)
+```
+•••••
+Get a second dataset to add a second graph to the second plot.
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+
+far_off <- read.csv("MFCCs_far_off.csv")
+```
+
+Add a second graph to the second plot.
+```{r}
+plot(close_on$maxPos, close_on$max, main = "MFCC maximum value", sub="close & screen on vs far & screen off", xlab = "position of maximum value (frames)", ylab = "maximum value", type="n", xlim=c(min(c(close_on$maxPos, far_off$maxPos)), c(max(c(close_on$maxPos, far_off$maxPos)))), ylim=c(min(c(close_on$max, far_off$max)), c(max(c(close_on$max, far_off$max)))))
+text(close_on$maxPos, close_on$max, labels=close_on$Coefficient)
+abline(lm(close_on$max ~ close_on$maxPos))
+
+points(far_off$maxPos, far_off$max, type="n")
+text(far_off$maxPos, far_off$max, labels=far_off$Coefficient, col="blue")
+abline(lm(far_off$max ~ far_off$maxPos), col = "blue")
+```
+
+Put a legend on that last plot.
+```{r}
+plot(close_on$maxPos, close_on$max, main = "MFCC maximum value", xlab = "position of maximum value (frames)", ylab = "maximum value", type="n", xlim=c(min(c(close_on$maxPos, far_off$maxPos)), c(max(c(close_on$maxPos, far_off$maxPos)))), ylim=c(min(c(close_on$max, far_off$max)), c(max(c(close_on$max, far_off$max)))))
+text(close_on$maxPos, close_on$max, labels=close_on$Coefficient)
+abline(lm(close_on$max ~ close_on$maxPos))
+points(far_off$maxPos, far_off$max, type="n")
+text(far_off$maxPos, far_off$max, labels=far_off$Coefficient, col="blue")
+abline(lm(far_off$max ~ far_off$maxPos), col = "blue")
+legend(320, 42, c("close & screen on", "far & screen off"), pch = c(13, 23), col = c("black", "blue"), text.col = c("black", "blue"))
+```
+
+Draw the second plot with the points connected.
+```{r}
+plot(close_on$maxPos, close_on$max, main = "MFCC maximum value: microphone close, pop screen on", xlab = "position of maximum value (frames)", ylab = "maximum value", type="n")
+text(close_on$maxPos, close_on$max, labels=close_on$Coefficient)
+lines(close_on$maxPos, close_on$max)
+```
+
+Get the hamming data and make a dotchart.
+```{r}
+hamming <- read.csv("/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/hamming.csv")
+dotchart(hamming$Hamming.Distance, labels = hamming$Screen, groups=hamming$Distance, lcolor="purple", main="Microphone Placement", sub="grouped by physical distance", xlab="Hamming Distance", ylab="Pop Screen", xlim=c(0,max(hamming$Hamming.Distance)), pch=4, color="purple")
+```
+•••••
+mtcars is a built-in dataframe
+```{r}
+attach(mtcars) # Sample dataset for cars
+head(mtcars) # Show the first 6 rows of mtcars
+```
+
+Scatter plot for MPG vs. Weight (tons) with some modifications
+```{r}
+plot(mtcars$wt, mtcars$mpg, main = "Auto Fuel Efficiency vs. Weight",
+     xlab = "Weight (tons)", ylab = "Fuel Efficieny (Miles per Gallon)",
+     xlim = c(0, 6), ylim = c(0, 40), pch = 21)
+abline(lm(mtcars$mpg ~ mtcars$wt), col = "blue")
+```
+
+Look at the summary of the linear model with intercept and slope for line of best fit
+```{r}
+mtcars_lm <- lm(mtcars$mpg ~ mtcars$wt)
+summary(mtcars_lm)
+```
+
+Create a dataframe from SM KBIT data & abbreviate column names
+```{r}
+sm_kbit = read.csv("/Volumes/data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/SM_EEG_KBIT.csv")
+
+names(sm_kbit)[names(sm_kbit) == "KBIT.Verbal.Standard.Score"] = "KBIT_Verbal"
+names(sm_kbit)[names(sm_kbit) == "KBIT.Nonverbal.Standard.Score"] = "KBIT_Nonverbal"
+names(sm_kbit)[names(sm_kbit) == "KBIT.IQ.Standard.Score"] = "KBIT_IQ"
+```
+
+T-test comparing Verbal scores between SM and controls
+```{r}
+t.test(sm_kbit$KBIT_Verbal ~ sm_kbit$SM_dx)
+```
+
+T-test comparing Verbal and Nonverbal scores between all participants
+```{r}
+t.test(sm_kbit$KBIT_Verbal, sm_kbit$KBIT_Nonverbal, paired = TRUE) # Note: If the argument "paired" is not specified, it defaults to FALSE
+```
+
+Boxplot comparing Verbal scores between SM and controls
+```{r}
+boxplot(KBIT_Verbal ~ SM_dx, data = sm_kbit)
+```
+
+Boxplot with modifications
+```{r}
+png(filename = "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/KBIT_boxplot_modified.png") # Specify where to save image as .png
+boxplot(KBIT_Verbal ~ SM_dx, data = sm_kbit, main = "KBIT Verbal Scores", 
+        xlab = "SM Diagnosis", ylab = "KBIT Verbal Score",
+        ylim = c(50, 150), col = c("#0067A0", "#919d9d"))
+dev.off()
+```
+
+Get complete microphone placement data for ANOVA
+```{r}
+library("reshape") # if R can't find function cast
+setwd(path)
+mfccs <- read.csv("openSMILE_emobase_MFCCs.csv")
+m2 <- cast(data=mfccs, formula = Distance + Screen + Coefficient ~ Functional)
+```
+
+ANOVA: Distance vs max MFCC values
+```{r}
+distance_to_max <- aov(max ~ Distance, data=m2)
+summary(distance_to_max)
+```
+
+Plot Distance vs max MFCC values
+```{r}
+plot(m2[m2$Distance == "close", ]$Coefficient, m2[m2$Distance == "close", ]$max, pch=19, ylab = "max MFCC value", xlab="MFCC coefficient")
+abline(lm(m2[m2$Distance == "close", ]$max ~ m2[m2$Distance == "close", ]$Coefficient), col="black")
+points(m2[m2$Distance == "far", ]$Coefficient, m2[m2$Distance == "far", ]$max, pch=20, col="grey")
+abline(lm(m2[m2$Distance == "far", ]$max ~ m2[m2$Distance == "far", ]$Coefficient), col="grey")
+legend(0.5, 42, c("close", "far"), pch = c(19, 20), col = c("black", "grey"), text.col = c("black", "grey"), title="Mic Distance")
+```
+
+Plot aov
+```{r}
+plot(distance_to_max)
+```
+
+ANOVA: Distance & Screen vs min MFCC values
+```{r}
+ds_to_min <- aov(max ~ Distance*Screen, data=m2)
+summary(ds_to_min)
+```
+
+Plot Distance & Screen vs min MFCC values
+```{r}
+plot(m2[m2$Distance == "close" & m2$Screen == "on", ]$Coefficient, m2[m2$Distance == "close" & m2$Screen == "on", ]$min, pch=19, ylab = "min MFCC value", xlab="MFCC coefficient")
+abline(lm(m2[m2$Distance == "close" & m2$Screen == "on", ]$min ~ m2[m2$Distance == "close" & m2$Screen == "on", ]$Coefficient), col="black")
+
+points(m2[m2$Distance == "close" & m2$Screen == "off", ]$Coefficient, m2[m2$Distance == "close" & m2$Screen == "off", ]$min, pch=21, col="green")
+abline(lm(m2[m2$Distance == "close" & m2$Screen == "off", ]$min ~ m2[m2$Distance == "close" & m2$Screen == "off", ]$Coefficient), col="green")
+
+points(m2[m2$Distance == "far" & m2$Screen == "on", ]$Coefficient, m2[m2$Distance == "far" & m2$Screen == "off", ]$min, pch=20, col="grey")
+abline(lm(m2[m2$Distance == "far" & m2$Screen == "on", ]$min ~ m2[m2$Distance == "far" & m2$Screen == "on", ]$Coefficient), col="grey")
+
+points(m2[m2$Distance == "far" & m2$Screen == "on", ]$Coefficient, m2[m2$Distance == "far" & m2$Screen == "off", ]$min, pch=1, col="blue")
+abline(lm(m2[m2$Distance == "far" & m2$Screen == "off", ]$min ~ m2[m2$Distance == "far" & m2$Screen == "off", ]$Coefficient), col="blue")
+
+legend(0.5, -42, c("close & on", "close & off", "far & on", "far & off"), pch = c(19, 21, 20, 1), col = c("black", "green", "grey", "blue"), text.col = c("black", "green", "grey", "blue"), title="Mic Distance & Pop Screen")
+```
+
+plot aov
+```{r}
+plot(ds_to_min)
+```
+
+interaction plot for Distance & Screen vs min MFCC values
+```{r}
+interaction.plot(m2$Distance, m2$Screen, m2$min, ylab = "min MFCC value", xlab = "mic distance", trace.label = "pop screen")
+```
+

@@ -1,0 +1,91 @@
+---
+title: "R_Week_3_Exercises"
+author: "Jon Clucas and Bonhwang Koo"
+output: html_document
+---
+
+Set the working directory and read in some data.
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+
+plot1_data <- read.csv("MFCCs_close_off.csv")
+```
+
+Build a scatterplot.
+```{r}
+plot(plot1_data$amean, plot1_data$max)
+```
+•••••
+Draw a line of best fit on your scatterplot.
+```{r}
+plot(plot1_data$amean, plot1_data$max)
+abline(lm(plot1_data$max ~ plot1_data$amean))
+summary(lm(plot1_data$max ~ plot1_data$amean))
+```
+•••••
+Connect the dots on your scatterplot.
+```{r}
+plot()
+lines()
+```
+•••••
+Create a data frame from the SM KBIT Data
+```{r}
+sm_kbit_data <- read.csv("/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/SM_EEG_KBIT.csv")
+```
+Create a boxplot comparing KBIT IQ scores between SM and control groups
+```{r}
+boxplot(sm_kbit_data$KBIT.IQ.Standard.Score ~ sm_kbit_data$SM_dx)
+```
+•••••
+Conduct a t-test comparing KBIT IQ scores for SM and control participants
+```{r}
+t.test(sm_kbit_data$KBIT.IQ.Standard.Score ~ sm_kbit_data$SM_dx)
+```
+•••••
+
+•••••
+Plot 2 or more datasets in a single scatterplot
+```{r}
+
+```
+
+Look at a summary of the linear model for each dataset in your scatterplot
+```{r}
+
+```
+
+Plot Screen vs min MFCC values in m2
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+mfccs <- read.csv("openSMILE_emobase_MFCCs.csv")
+m2 <- cast(data=mfccs, formula = Distance + Screen + Coefficient ~ Functional)
+
+plot({coefficeint vector}, {minimum value vector}) # first Screen factor
+abline()
+
+points() # second Screen factor
+abline()
+```
+
+Choose a functional from m2 (any of the columns after "Coefficient"). Plot an interaction.plot with Distance & Screen against that functional.
+```{r}
+
+```
+
+Use summary(aov()) to compare the functional you interaction.plotted to Distance and Screen.
+```{r}
+
+```
+
+
+Use aov() to compare SM KBIT_Verbal to KBIT_Nonverbal
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+sm_kbit = read.csv("/Volumes/data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/SM_EEG_KBIT.csv")
+
+```
+
