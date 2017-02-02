@@ -1,0 +1,103 @@
+---
+title: "R_Week_3_Exercises"
+author: "Jon Clucas and Bonhwang Koo"
+output: html_document
+---
+
+Set the working directory and read in some data.
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+
+plot1_data <- read.csv("MFCCs_far_off.csv")
+```
+
+Build a scatterplot.
+```{r}
+plot(plot1_data$quartile2, xlab="Coefficient", ylab="2nd Quartile", main="2nd Quartile MFCC")
+```
+•••••
+Draw a line of best fit on your scatterplot.
+```{r}
+plot(plot1_data$quartile2, xlab="Coefficient", ylab="2nd Quartile", main="2nd Quartile MFCC")
+abline(lm(plot1_data$quartile2 ~ plot1_data$Coefficient), col="red")
+lines(predict(lm(plot1_data$quartile2 ~ poly(plot1_data$Coefficient, 4))), col="blue")
+```
+•••••
+Connect the dots on your scatterplot.
+```{r}
+plot(plot1_data$quartile2, xlab="Coefficient", ylab="2nd Quartile", main="2nd Quartile MFCC")
+lines(plot1_data$quartile2)
+```
+•••••
+Create a data frame from the SM KBIT Data
+```{r}
+sm_kbit_data <- read.csv("/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/SM_EEG_KBIT.csv")
+```
+Create a boxplot comparing KBIT IQ scores between SM and control groups
+```{r}
+boxplot(sm_kbit_data$KBIT.IQ.Standard.Score ~ sm_kbit_data$SM_dx, xlab="SM Diagnosis", ylab="KBIT IQ Score", main="KBIT IQ Score by SM Diagnosis")
+```
+•••••
+Conduct a t-test comparing KBIT IQ scores for SM and control participants
+```{r}
+t.test(sm_kbit_data$SM_dx, sm_kbit_data$KBIT.IQ.Standard.Score)
+```
+•••••
+
+•••••
+Plot 2 or more datasets in a single scatterplot
+```{r}
+plot(sm_kbit_data$KBIT.Verbal.Standard.Score ~ sm_kbit_data$KBIT.IQ.Standard.Score, xlab="KBIT IQ Score", ylab="KBIT Score", main="KBIT Verbal & Nonverbal Scores vs KBIT IQ Score", col="red")
+points(sm_kbit_data$KBIT.Nonverbal.Standard.Score ~ sm_kbit_data$KBIT.IQ.Standard.Score, col="blue")
+legend(78, 153, c("Verbal", "Nonverbal"), col=c("red", "blue"), pch=1, xpd=TRUE)
+```
+
+Look at a summary of the linear model for each dataset in your scatterplot
+```{r}
+summary(lm(sm_kbit_data$KBIT.Verbal.Standard.Score ~ sm_kbit_data$KBIT.IQ.Standard.Score))
+summary(lm(sm_kbit_data$KBIT.Nonverbal.Standard.Score ~ sm_kbit_data$KBIT.IQ.Standard.Score))
+```
+
+Plot Screen vs min MFCC values in m2
+```{r}
+library("reshape")
+# path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv"
+setwd(path)
+mfccs <- read.csv("openSMILE_emobase_MFCCs.csv")
+m2 <- cast(data=mfccs, formula = Distance + Screen + Coefficient ~ Functional)
+
+# it takes quite a bit of code to plot this as a line plot:
+
+plot(m2[which(m2$Screen == "on"),]$Coefficient, m2[which(m2$Screen == "on"),]$min, col="red", main="Screen vs min MFCC values", xlab="coefficient", ylab="min MFCC") # first Screen factor
+abline(lm(m2[which(m2$Screen == "on"),]$min ~ m2[which(m2$Screen == "on"),]$Coefficient), col="red")
+
+points(m2[which(m2$Screen == "off"),]$Coefficient, m2[which(m2$Screen == "off"),]$min, col="blue") # second Screen factor
+abline(lm(m2[which(m2$Screen == "off"),]$min ~ m2[which(m2$Screen == "off"),]$Coefficient), col="blue")
+legend(0, -50, c("on", "off"), pch=1, col=c("red", "blue"), title="Screen", xpd=TRUE)
+
+# with categorical data, plot makes a boxplot:
+
+plot(m2$min ~ m2$Screen, main="Screen vs min MFCC values", xlab="Screen", ylab="min MFCC", col=c("red", "blue"), outcol=c("red", "blue"))
+```
+
+Choose a functional from m2 (any of the columns after "Coefficient"). Plot an interaction.plot with Distance & Screen against that functional.
+```{r}
+interaction.plot(m2$Distance, m2$Screen, m2$quartile2, trace.label="Screen", xlab="Distance", ylab="Quartile 2 MFCCs", main="Quartile 2 MFCCs by Distance and Screen")
+```
+
+Use summary(aov()) to compare the functional you interaction.plotted to Distance and Screen.
+```{r}
+summary(aov(m2$quartile2 ~ m2$Distance * m2$Screen))
+```
+
+
+Use aov() to compare SM KBIT_Verbal to KBIT_Nonverbal
+```{r}
+path <- "/Volumes/Data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/"
+setwd(path)
+sm_kbit = read.csv("/Volumes/data/Research/CDB/RA Didactics/Programming_Jan2017/Week 3/example_csv/SM_EEG_KBIT.csv")
+summary(aov(sm_kbit$KBIT.Verbal.Standard.Score ~ sm_kbit$KBIT.Nonverbal.Standard.Score))
+```
+
