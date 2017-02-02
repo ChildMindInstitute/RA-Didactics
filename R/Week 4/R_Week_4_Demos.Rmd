@@ -1,0 +1,57 @@
+---
+title: "R Week 4 Demonstrations"
+author: "Bonhwang Koo & Jon Clucas"
+date: "2017 February 2"
+output: html_notebook
+---
+
+One-way ANOVA
+```{r}
+#`mtcars` is a built-in dataset in R
+attach(mtcars)
+fit <- aov(mpg ~ wt, mtcars)
+summary(fit)
+```
+
+Repeated measures ANOVA
+```{r}
+#`beaver1` and `beaver2` are also built into R
+beavers <- rbind(data.frame(c(beaver="beaver1", beaver1)), data.frame(c(beaver="beaver2", beaver2)))
+fit_rm <- aov(temp ~ time+Error(beaver/time), data=beavers)
+summary(fit_rm)
+```
+
+install.packages
+```{r}
+install.packages("swirl")
+```
+
+library
+```{r}
+library("swirl")
+swirl()
+```
+
+ggplot
+```{r}
+install.packages("ggplot2")
+library("ggplot2")
+sm_kbit <- read.csv("/Volumes/data/Research/CDB/RA Didactics/Programming_Jan2017/Week 4/example_csv/SM_EEG_KBIT.csv")
+names(sm_kbit)[names(sm_kbit) == "KBIT.Verbal.Standard.Score"] = "KBIT_Verbal"
+names(sm_kbit)[names(sm_kbit) == "KBIT.Nonverbal.Standard.Score"] = "KBIT_Nonverbal"
+names(sm_kbit)[names(sm_kbit) == "KBIT.IQ.Standard.Score"] = "KBIT_IQ"
+```
+
+```{r}
+p <- ggplot(sm_kbit, aes(factor(SM_dx), KBIT_Verbal))
+p + geom_boxplot()
+```
+
+
+```{r}
+p <- ggplot(sm_kbit, aes(factor(SM_dx), KBIT_Verbal))
+p + geom_boxplot(color = "black", fill = "#0067a0") +
+  labs(title = "KBIT Verbal Score by SM Diagnosis", x = "SM Diagnosis", y = "KBIT Standard Verbal Score") +
+  scale_x_discrete(labels = c("Control", "SM"))
+```
+

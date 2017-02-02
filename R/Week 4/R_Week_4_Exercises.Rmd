@@ -1,0 +1,23 @@
+---
+title: "R_Week_4_Exercises"
+author: "Jon Clucas and Bonhwang Koo"
+output: html_document
+---
+
+Load in the "beavers" dataframe used in the demo. Run a repeated measures ANOVA to see how the beavers' temperatures varied by day.
+```{r}
+
+```
+
+Try Swirl
+```{r}
+install.packages("swirl")
+library("swirl")
+swirl()
+```
+
+ggplot
+```{r}
+
+```
+
