@@ -1,0 +1,30 @@
+---
+title: "R_Week_4_Exercises"
+author: "Jon Clucas and Bonhwang Koo"
+output: html_document
+---
+
+Load in the "beavers" dataframe used in the demo. Run a repeated measures ANOVA to see how the beavers' temperatures varied by day.
+```{r}
+beavers <- rbind(data.frame(c(beaver="beaver1", beaver1)), data.frame(c(beaver="beaver2", beaver2)))
+fit_rm <- aov(temp ~ day+Error(beaver/day), data=beavers)
+summary(fit_rm)
+```
+
+Try Swirl
+```{r}
+install.packages("swirl")
+library("swirl")
+swirl()
+```
+
+ggplot
+```{r}
+library(ggplot2)
+by_day <- ggplot(beavers, aes(day, temp, color=beaver))
+by_day + geom_point() + labs(title = "Beaver Temperature by Day", x = "Day", y = "Temperature")
+```
+```{r}
+by_day + geom_boxplot(aes(fill = factor(day)))
+```
+
